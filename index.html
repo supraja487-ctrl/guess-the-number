@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center; /* can only work when we give height */
+            height: 100vh;
+        }
+        .container{
+            width:300px;
+            border-radius: 50px;
+            border:2px solid green;
+            text-align: center; /* aligns the text in center of container */
+            padding: 30px;
+        }
+        input,button{
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guess the Number</h1>
+        <input type="number" id="guessnumber" placeholder="Enter your guess"><br><br>
+        <button id="btn">Submit</button>
+        <p id="info"></p>
+        <p id="attempts"></p>
+    </div>
+    <script>
+        var ran = Math.floor(Math.random() * 100) + 1;
+        console.log(ran);
+        var guesscount = 0;
+        var maxguess = 10;
+
+        var btn = document.getElementById("btn");
+        var para = document.getElementById("info");
+        var attempts = document.getElementById("attempts");
+
+        btn.addEventListener("click", function() {
+            var inpnumber = document.getElementById("guessnumber");
+            var gusnumber = parseInt(inpnumber.value);
+            guesscount++; // Increase guesscount
+
+            if (gusnumber >= 1 && gusnumber <= 100) {
+                if (guesscount < maxguess) {
+                    if (gusnumber === ran) {
+                        para.innerText = "Correct Guess!";
+                        attempts.innerText = `You used ${guesscount}/${maxguess} guesses.`;
+                        btn.disabled = true; // Disable button on correct guess
+                    } else if (gusnumber > ran) {
+                        para.innerText = "Guess is too high";
+                    } else {
+                        para.innerText = "Guess is too low";
+                    }
+
+                    attempts.innerText = `Guess used ${guesscount}/${maxguess}. Keep trying!`;
+                    inpnumber.value = "";
+                } else {
+                    para.innerText = `You're out of guesses. The correct number was ${ran}. Don't give up, try again!`;
+                    attempts.innerText = `You used ${guesscount}/${maxguess} guesses.`;
+                    inpnumber.value = "";
+                    btn.disabled = true; // Disable button after max guesses
+                }
+            } else {
+                window.alert("Enter a number between 1 and 100 only");
+            }
+        });
+    </script>
+</body>
+</html>
